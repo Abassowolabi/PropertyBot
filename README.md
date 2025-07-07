@@ -1,54 +1,62 @@
-````markdown
+
 # 🏡 PropertyBot
 
 A powerful web scraping project that gathers real estate listings from major Nigerian property websites.
-
-It provides a user-friendly Flask web interface to **filter**, **preview**, and **export** data into **CSV**, **Excel**, or **Google Sheets**.
+It provides a user-friendly Flask web interface to **filter**, **preview**, and **export** data into
+ **CSV**, **Excel**, or **Google Sheets**.
 
 ---
 
 ## 📸 Sample Output
 
 ### 🧾 Google Sheets Export  
-<img src="outputs/googlesheet_snapshot.PNG" width="600"/>
+
+![Google Sheets](outputs/googlesheet_snapshot.PNG)
 
 ### 🌐 Web Interface  
-<img src="outputs/webapp.PNG" width="600"/>
+
+![Web Interface](outputs/webapp.PNG)
+
+
+
 
 ---
 
-## 📦 Features
+## 📆 Features
 
-- ✅ Scrapes property listings from:
-  - NigeriaPropertyCentre.com
-  - PropertyPro.ng
-  - PrivateProperty.ng
-- ✅ Extracts structured data: title, price, category, location, agent details, image URL, etc.
-- ✅ Saves to **MongoDB**
-- ✅ Flask web interface to:
-  - Filter by city, category, price range, or date scraped
-  - View paginated results
-  - Export listings
-- ✅ Export to:
-  - **CSV**
-  - **Excel**
-  - **Google Sheets** via OAuth login
-- ✅ Deduplicates listings
-- ✅ Clean logging, error handling, modular layout
+* ✅ Scrapes property listings from:
+
+  * NigeriaPropertyCentre.com
+  * PropertyPro.ng
+  * PrivateProperty.ng
+* ✅ Extracts structured data: title, price, category, location, agent details, image URL, etc.
+* ✅ Saves to **MongoDB**
+* ✅ Flask web interface to:
+
+  * Filter by city, category, price range, or date scraped
+  * View paginated results
+  * Export listings
+* ✅ Export to:
+
+  * **CSV**
+  * **Excel**
+  * **Google Sheets** via OAuth login
+* ✅ Deduplicates listings
+* ✅ Clean logging, error handling, modular layout
 
 ---
 
-## 🗂 Project Structure
+## 📂 Project Structure
 
 ```plaintext
 PropertyBot/
 ├── scrapers/
 │   ├── NGPC_CRAWLER.py
 │   ├── PPRO_CRAWLER.py
-│   ├── PPNG_CRAWLER.py
+│   └── PPNG_CRAWLER.py
 ├── pipelines/
 │   ├── mongodb_pipeline.py
-│   ├── remove_duplicates_script.py
+│   └── remove_duplicates_script.py
 ├── middlewares/
 │   └── user_agent_middleware.py
 ├── utils/
@@ -69,7 +77,7 @@ PropertyBot/
 ├── .env
 ├── README.md
 └── requirements.txt
-````
+```
 
 ---
 
@@ -86,16 +94,16 @@ playwright install
 
 ### 2. Set up environment variables
 
-#### Root `.env`
+#### In the root `.env` file:
 
-```
+```env
 FLASK_SECRET_KEY=your-flask-secret-key
 GOOGLE_SERVICE_KEY=utils/propertyAPIkeys.json
 ```
 
-#### WebApp/.env
+#### In `WebApp/.env`:
 
-```
+```env
 CLIENT_SECRET_FILE=WebApp/client_secret.json
 FLASK_SECRET_KEY=your-webapp-secret-key
 ```
@@ -110,7 +118,7 @@ python -m scrapers.PPRO_CRAWLER     # PropertyPro.ng
 python -m scrapers.PPNG_CRAWLER     # PrivateProperty.ng
 ```
 
-> Listings are stored in MongoDB under the `PropertyBot.listings` collection.
+> Scraped data is saved to MongoDB in the `PropertyBot.listings` collection.
 
 ---
 
@@ -130,19 +138,19 @@ Then visit: [http://localhost:5000](http://localhost:5000)
 From the web interface:
 
 1. Apply filters (e.g. city = Lagos, category = Flat)
-2. Click "Export to Google Sheets"
+2. Click **Export to Google Sheets**
 3. Sign in with Google
-4. A new spreadsheet is created in your Drive with your filtered results
+4. A new spreadsheet is created in your Google Drive
 
-✅ Exports are handled securely using OAuth 2.0 — no credentials are hardcoded.
+✅ Secure export via OAuth — no credentials are exposed.
 
 ---
 
 ## 🔐 Security Notes
 
-This project is **Git-safe**. The following are ignored via `.gitignore`:
+This project is **Git-safe**. The following sensitive files are ignored:
 
-```
+```gitignore
 .env
 **/.env
 __pycache__/
@@ -152,7 +160,7 @@ utils/propertyAPIkeys.json
 WebApp/client_secret.json
 ```
 
-> Make sure you **create your own `.env` files** and **do not commit your credentials** to GitHub.
+> ✨ Make sure you **create your own `.env` files** and **do not commit your credentials** to GitHub.
 
 ---
 
@@ -161,12 +169,11 @@ WebApp/client_secret.json
 **Author:** Abass Owolabi
 📧 Email: [abassowolabi091021@gmail.com](mailto:abassowolabi091021@gmail.com)
 
-💼 Available for freelance scraping work (Upwork, Fiverr, LinkedIn, etc.)
+💼 Available for freelance scraping projects on Upwork, Fiverr, LinkedIn & more.
 
 ---
 
 ## 📝 License
 
-This project is for educational and personal use only.
-Always comply with a website’s **Terms of Service** when scraping data.
-
+This project is for **educational and personal use only**.
+Always respect websites’ **Terms of Service** when scraping.
