@@ -1,0 +1,56 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.venv/
+.env/  # In case you use a folder structure for environments
+
+# Environment variables
+.env
+
+# Scraper runtime output
+*.log
+*.csv
+output/
+
+# State/auth/session files
+state.json
+auth_token.json
+token.json
+client_secret.json
+propertyAPIkeys.json
+
+# Jupyter Notebook checkpoints (if any)
+.ipynb_checkpoints/
+
+# VSCode config files (optional)
+.vscode/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Pytest
+.cache/
+.pytest_cache/
+
+# Google OAuth credentials cache
+.token*
+
+# Node.js (in case of frontend work)
+node_modules/
+
+# Misc
+*.bak
+*.swp
+
+#APIs
+propertyAPIkeys.json
+client_secret.json
