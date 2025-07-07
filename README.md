@@ -1,18 +1,19 @@
-
-```markdown
+````markdown
 # 🏡 PropertyBot
 
-A powerful web scraping project that gathers real estate listings from major Nigerian property websites and offers a user-friendly web interface to filter, preview, and export the data to CSV, Excel, or Google Sheets.
+A powerful web scraping project that gathers real estate listings from major Nigerian property websites.
+
+It provides a user-friendly Flask web interface to **filter**, **preview**, and **export** data into **CSV**, **Excel**, or **Google Sheets**.
 
 ---
 
 ## 📸 Sample Output
 
-### 🧾 Google Sheets Export
-![Google Sheets Output](outputs/googlesheet_snapshot.PNG)
+### 🧾 Google Sheets Export  
+<img src="outputs/googlesheet_snapshot.PNG" width="600"/>
 
-### 🌐 Web Interface
-![Web App Interface](outputs/webapp.PNG)
+### 🌐 Web Interface  
+<img src="outputs/webapp.PNG" width="600"/>
 
 ---
 
@@ -22,58 +23,52 @@ A powerful web scraping project that gathers real estate listings from major Nig
   - NigeriaPropertyCentre.com
   - PropertyPro.ng
   - PrivateProperty.ng
-- ✅ Collects key fields: title, price, city, category, agent contacts, image URL, and more
-- ✅ Saves structured data to **MongoDB**
-- ✅ Flask web interface to search and filter listings
-- ✅ Export listings to:
+- ✅ Extracts structured data: title, price, category, location, agent details, image URL, etc.
+- ✅ Saves to **MongoDB**
+- ✅ Flask web interface to:
+  - Filter by city, category, price range, or date scraped
+  - View paginated results
+  - Export listings
+- ✅ Export to:
   - **CSV**
   - **Excel**
-  - **Google Sheets** (via OAuth)
-- ✅ Optional: Automatically deduplicate listings
-- ✅ Clean and organized codebase with logging and error handling
+  - **Google Sheets** via OAuth login
+- ✅ Deduplicates listings
+- ✅ Clean logging, error handling, modular layout
 
 ---
 
 ## 🗂 Project Structure
 
-```
-
+```plaintext
 PropertyBot/
-│
-├── scrapers/                         # Main Playwright scraper scripts
-│   ├── PROPERTYBOT\_SCRAPER\_1.py      # NigeriaPropertyCentre scraper
-│   ├── PROPERTYBOT\_SCRAPER\_2.py      # PropertyPro.ng scraper
-│   └── PROPERTYBOT\_SCRAPER\_3.py      # PrivateProperty.ng scraper
-│
-├── pipelines/                        # MongoDB pipelines and duplicate removal
-│   ├── mongodb\_pipeline.py
-│   └── remove\_duplicates\_script.py
-│
-├── middlewares/                      # Rotating user-agent support
-│   └── user\_agent\_middleware.py
-│
-├── utils/                            # Google Sheets writer and helpers
-│   ├── sheet\_writer.py
-│   └── propertyAPIkeys.json          # 🔒 Google service account key (ignored by Git)
-│
-├── outputs/                          # Exported CSVs and snapshots (ignored)
+├── scrapers/
+│   ├── NGPC_CRAWLER.py
+│   ├── PPRO_CRAWLER.py
+│   ├── PPNG_CRAWLER.py
+├── pipelines/
+│   ├── mongodb_pipeline.py
+│   ├── remove_duplicates_script.py
+├── middlewares/
+│   └── user_agent_middleware.py
+├── utils/
+│   ├── sheet_writer.py
+│   └── propertyAPIkeys.json
+├── outputs/
 │   ├── properties.csv
-│   ├── googlesheet\_snapshot.PNG
+│   ├── googlesheet_snapshot.PNG
 │   └── webapp.PNG
-│
-├── WebApp/                           # Flask web interface for filtered export
-│   ├── server.py                     # Main Flask app
+├── WebApp/
+│   ├── server.py
 │   ├── templates/
 │   │   └── search.html
 │   ├── static/
 │   │   └── style.css
-│   ├── .env                          # 🔒 Web app secrets
-│   └── client\_secret.json            # 🔒 OAuth 2.0 credentials (ignored by Git)
-│
-├── .env                              # 🔒 Global environment secrets
+│   ├── .env
+│   └── client_secret.json
+├── .env
 ├── README.md
 └── requirements.txt
-
 ````
 
 ---
@@ -85,20 +80,20 @@ PropertyBot/
 ```bash
 pip install -r requirements.txt
 playwright install
-````
+```
 
 ---
 
 ### 2. Set up environment variables
 
-#### In your project root `.env` file:
+#### Root `.env`
 
 ```
 FLASK_SECRET_KEY=your-flask-secret-key
 GOOGLE_SERVICE_KEY=utils/propertyAPIkeys.json
 ```
 
-#### In `WebApp/.env`:
+#### WebApp/.env
 
 ```
 CLIENT_SECRET_FILE=WebApp/client_secret.json
@@ -110,69 +105,68 @@ FLASK_SECRET_KEY=your-webapp-secret-key
 ### 3. Run a scraper
 
 ```bash
-python -m scrapers.PROPERTYBOT_SCRAPER_1  # NGPC
-python -m scrapers.PROPERTYBOT_SCRAPER_2  # PropertyPro.ng
-python -m scrapers.PROPERTYBOT_SCRAPER_3  # PrivateProperty.ng
+python -m scrapers.NGPC_CRAWLER     # NigeriaPropertyCentre
+python -m scrapers.PPRO_CRAWLER     # PropertyPro.ng
+python -m scrapers.PPNG_CRAWLER     # PrivateProperty.ng
 ```
 
-> Scraped data is saved into MongoDB (`PropertyBot.listings`).
+> Listings are stored in MongoDB under the `PropertyBot.listings` collection.
 
 ---
 
-### 4. Launch the web interface
+### 4. Launch the Web Interface
 
 ```bash
 cd WebApp
 python server.py
 ```
 
-> Visit [http://localhost:5000](http://localhost:5000) to filter, preview, and export property listings.
+Then visit: [http://localhost:5000](http://localhost:5000)
 
 ---
 
-## 📤 Exporting to Google Sheets
+## 📤 Export to Google Sheets
 
-Click **"Export to Google Sheets"** from the interface. You’ll be prompted to log in with your Google account.
+From the web interface:
 
-* A new spreadsheet is created in your Drive
-* Filtered listings are written with correct formatting
-* OAuth credentials are **not hardcoded** — handled securely
+1. Apply filters (e.g. city = Lagos, category = Flat)
+2. Click "Export to Google Sheets"
+3. Sign in with Google
+4. A new spreadsheet is created in your Drive with your filtered results
+
+✅ Exports are handled securely using OAuth 2.0 — no credentials are hardcoded.
 
 ---
 
 ## 🔐 Security Notes
 
-This project is GitHub-safe.
-
-### `.gitignore` already includes:
+This project is **Git-safe**. The following are ignored via `.gitignore`:
 
 ```
 .env
 **/.env
-*.pyc
 __pycache__/
+*.pyc
 outputs/
 utils/propertyAPIkeys.json
 WebApp/client_secret.json
 ```
 
-> ✅ No sensitive files or secrets are committed.
-> 🔒 Be sure to **create your own `.env` and credential files** before running.
+> Make sure you **create your own `.env` files** and **do not commit your credentials** to GitHub.
 
 ---
 
 ## ✉️ Contact
 
 **Author:** Abass Owolabi
-📧 [abassowolabi091021@gmail.com](mailto:abassowolabi091021@gmail.com)
+📧 Email: [abassowolabi091021@gmail.com](mailto:abassowolabi091021@gmail.com)
 
-💼 Available for freelance scraping work on platforms like **Upwork**, **Fiverr**, **LinkedIn**, and more.
+💼 Available for freelance scraping work (Upwork, Fiverr, LinkedIn, etc.)
 
 ---
 
 ## 📝 License
 
-This project is intended for **educational and personal use only**.
-Please respect the [terms of service](https://en.wikipedia.org/wiki/Terms_of_service) of all websites being scraped.
+This project is for educational and personal use only.
+Always comply with a website’s **Terms of Service** when scraping data.
 
-```
