@@ -15,7 +15,6 @@ env/
 # Scraper runtime output
 *.log
 *.csv
-output/
 
 # State/auth/session files
 state.json
@@ -54,3 +53,4 @@ node_modules/
 #APIs
 propertyAPIkeys.json
 client_secret.json
+
